@@ -1,6 +1,6 @@
 import "./Task.scss";
 
-export default function Task({ task }) {
+export default function Task({ task, handleDelete, handleEdit, HandleToggle }) {
   const statusClasses = [
     "status",
     task.completed ? "bg-success" : "bg-secondary",
@@ -9,6 +9,7 @@ export default function Task({ task }) {
     "btn",
     task.completed ? "btn-secondary" : "btn-success",
   ].join(" ");
+
   return (
     <li className="list-group-item d-flex flex-column flex-md-row task ">
       <div>
@@ -18,9 +19,15 @@ export default function Task({ task }) {
         </span>
       </div>
       <div className="actions">
-        <button className={toggleClasses}>Toggle</button>
-        <button className="btn btn-primary mx-2">Edit</button>
-        <button className="btn btn-danger">Delete</button>
+        <button className={toggleClasses} onClick={HandleToggle}>
+          Toggle
+        </button>
+        <button className="btn btn-primary mx-2" onClick={handleEdit}>
+          Edit
+        </button>
+        <button className="btn btn-danger" onClick={handleDelete}>
+          Delete
+        </button>
       </div>
     </li>
   );

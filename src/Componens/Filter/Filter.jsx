@@ -1,20 +1,28 @@
 import { useEffect, useState } from "react";
-import { getTasks } from "../../utils/storage";
+import { getAllTasks, getTasks } from "../../utils/storage";
 import "./Filter.scss";
-export default function Filter({ setTasks }) {
+export default function Filter({
+  setTasks,
+  setIsAllTasks,
+  isAllTasks,
+  filterHandler,
+  selectedRadio,
+  setSelectedRadio,
+}) {
   const [searchValue, setSearchValue] = useState("");
-  const [selectedRadio, setSelectedRadio] = useState(null);
+  // const [selectedRadio, setSelectedRadio] = useState(null);
+  const [isChecked, setIsChecked] = useState(true);
   function searchHandler(e) {
     setSearchValue(e.target.value);
   }
-  function filterHandler(e) {
-    console.log(e.target.value);
-    setSelectedRadio(e.target.value);
-  }
+
   useEffect(() => {
-    const filteredTasks = getTasks(1, 3, searchValue, selectedRadio);
+    const filteredTasks = getTasks(1, 23, searchValue, selectedRadio);
+    console.log(selectedRadio);
+
     setTasks(filteredTasks.tasks);
   }, [searchValue, selectedRadio]);
+
   return (
     <div className="filter flex-column flex-md-row align-items-md-center ">
       <div>
@@ -31,7 +39,6 @@ export default function Filter({ setTasks }) {
             All Tasks
           </label>
         </div>
-
         <div className="form-check form-check-inline">
           <input
             className="form-check-input"
@@ -71,3 +78,5 @@ export default function Filter({ setTasks }) {
     </div>
   );
 }
+
+// checked={isChecked ? "checked" : false}

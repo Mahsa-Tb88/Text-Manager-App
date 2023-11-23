@@ -1,9 +1,16 @@
 import { useRef, useState } from "react";
 import "./AddTask.scss";
-import { saveTasks } from "../../utils/storage";
-export default function AddTask({ tasks, setTasks }) {
+import { getAllTasks, getTasks, saveTasks } from "../../utils/storage";
+export default function AddTask({
+  setTasks,
+  setIsAllTasks,
+  isEdit,
+  setIsEdit,
+  selectedRadio,
+}) {
   const [inputValue, setInputValue] = useState("");
   const [isCompleted, setIsCompleted] = useState(false);
+
   const radioRef = useRef();
   function inputHandler(e) {
     setInputValue(e.target.value);
@@ -15,10 +22,16 @@ export default function AddTask({ tasks, setTasks }) {
       title: inputValue,
       completed: isCompleted,
     };
+    const newTasks = getAllTasks();
+    newTasks.push(newTask);
+    saveTasks(newTasks);
     radioRef.current.checked = false;
-    setTasks([...tasks, newTask]);
+    setIsAllTasks(true);
+    const updateTask = getTasks(1, 33, "", selectedRadio);
+    setTasks(updateTask.tasks);
     setInputValue("");
     setIsCompleted(false);
+    setIsEdit(false);
   }
   return (
     <div>
@@ -36,7 +49,7 @@ export default function AddTask({ tasks, setTasks }) {
             className="btn btn-primary"
             onClick={addTaskHandler}
           >
-            Add Task
+            {isEdit ? "Edit Task" : "Add Task"}
           </button>
         </div>
         <div className="mt-2 form-check">
