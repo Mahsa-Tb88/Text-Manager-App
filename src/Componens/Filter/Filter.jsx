@@ -1,28 +1,5 @@
-import { useEffect, useState } from "react";
-import { getAllTasks, getTasks } from "../../utils/storage";
 import "./Filter.scss";
-export default function Filter({
-  setTasks,
-  setIsAllTasks,
-  isAllTasks,
-  filterHandler,
-  selectedRadio,
-  setSelectedRadio,
-}) {
-  const [searchValue, setSearchValue] = useState("");
-  // const [selectedRadio, setSelectedRadio] = useState(null);
-  const [isChecked, setIsChecked] = useState(true);
-  function searchHandler(e) {
-    setSearchValue(e.target.value);
-  }
-
-  useEffect(() => {
-    const filteredTasks = getTasks(1, 23, searchValue, selectedRadio);
-    console.log(selectedRadio);
-
-    setTasks(filteredTasks.tasks);
-  }, [searchValue, selectedRadio]);
-
+export default function Filter({ changeStatus, changeSearch, currentStatus,search }) {
   return (
     <div className="filter flex-column flex-md-row align-items-md-center ">
       <div>
@@ -32,8 +9,8 @@ export default function Filter({
             type="radio"
             name="status"
             id="all-tasks"
-            onChange={filterHandler}
-            value="all"
+            onChange={() => changeStatus("all")}
+            checked={currentStatus == "all"}
           />
           <label className="form-check-label" htmlFor="all-tasks">
             All Tasks
@@ -46,7 +23,8 @@ export default function Filter({
             name="status"
             id="completed-task"
             value="completed"
-            onChange={filterHandler}
+            onChange={() => changeStatus("completed")}
+            checked={currentStatus == "completed"}
           />
           <label className="form-check-label" htmlFor="completed-task">
             completed
@@ -58,8 +36,8 @@ export default function Filter({
             type="radio"
             name="status"
             id="in-progress-task"
-            value="in-progress"
-            onChange={filterHandler}
+            onChange={() => changeStatus("in-progress")}
+            checked={currentStatus == "in-progress"}
           />
           <label className="form-check-label" htmlFor="in-progress-task">
             In progress
@@ -71,12 +49,10 @@ export default function Filter({
           type="text"
           placeholder="serach..."
           className="form-control"
-          value={searchValue}
-          onChange={searchHandler}
+          onChange={changeSearch}
+          value={search}
         />
       </div>
     </div>
   );
 }
-
-// checked={isChecked ? "checked" : false}

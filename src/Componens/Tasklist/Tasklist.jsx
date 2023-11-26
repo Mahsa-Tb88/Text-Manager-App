@@ -1,33 +1,18 @@
-import {
-  deleteTask,
-  getAllTasks,
-  getTasks,
-  saveTasks,
-} from "../../utils/storage";
 import Task from "../Task/Task";
 import "./Tasklist.scss";
 
 export default function Tasklist({
   tasks,
-  setTasks,
-  handleEdit,
-  selectedRadio,
+  onToggle,
+  onEdit,
+  idEdit,
+  setEditTitle,
+  editTitle,
+  onDelete,
+  page,
 }) {
-  function handleDelete(id) {
-    const newTask = tasks.filter((task) => task.id !== id);
-    deleteTask(id);
-    setTasks(newTask);
-  }
-  function HandleToggle(id) {
-    const allTasks = getAllTasks();
-    const index = allTasks.findIndex((task) => task.id == id);
-    const task = { ...allTasks[index] };
-    task.completed = !task.completed;
-    const newTasks = [...allTasks];
-    newTasks[index] = task;
-    saveTasks(newTasks);
-    const updatedTask = getTasks(1, 32, "", selectedRadio);
-    setTasks(updatedTask.tasks);
+  if (tasks.length == 0 && page == 1) {
+    return <p className="notask">There is no task</p>;
   }
   return (
     <ul className="list-group tasks-list">
@@ -35,9 +20,12 @@ export default function Tasklist({
         <Task
           key={task.id}
           task={task}
-          handleDelete={() => handleDelete(task.id)}
-          handleEdit={() => handleEdit(task.id)}
-          HandleToggle={() => HandleToggle(task.id)}
+          onToggle={onToggle}
+          onEdit={onEdit}
+          idEdit={idEdit}
+          setEditTitle={setEditTitle}
+          editTitle={editTitle}
+          onDelete={onDelete}
         />
       ))}
     </ul>

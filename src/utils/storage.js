@@ -16,16 +16,16 @@ function saveTasks(tasks) {
 
 function getTasks(page = 1, perPage = 4, search = "", status = "all") {
   const tasks = getAllTasks();
-
   let filteredTasks = tasks.filter((task) => {
     return task.title.toLowerCase().includes(search.toLowerCase());
   });
+
   if (status == "completed") {
     filteredTasks = filteredTasks.filter((task) => task.completed);
   } else if (status == "in-progress") {
     filteredTasks = filteredTasks.filter((task) => !task.completed);
   } else {
-    filteredTasks = tasks;
+    filteredTasks = filteredTasks;
   }
   const start = (page - 1) * perPage;
   const currentPageTasks = filteredTasks.slice(start, start + perPage);
@@ -34,7 +34,7 @@ function getTasks(page = 1, perPage = 4, search = "", status = "all") {
     tasks: currentPageTasks,
     totalTasks: {
       all: tasks.length,
-      filterd: currentPageTasks.length,
+      filterd: filteredTasks.length,
     },
   };
 }
@@ -45,8 +45,35 @@ function deleteTask(id) {
   saveTasks(taskFiltered);
 }
 
-function editTask(id){
-  
+function addTask(title, completed) {
+  const tasks = getAllTasks();
+  let id;
+  if (tasks.length) {
+    id = tasks[tasks.length - 1].id + 1;
+  } else {
+    id = 1;
+  }
+  const newTask = {
+    id,
+    title,
+    completed,
+  };
+  tasks.push(newTask);
+  saveTasks(tasks);
+  return;
 }
 
-export { getAllTasks, saveTasks, getTasks,deleteTask };
+function updateTask(id, title, completed) {
+  let tasks = getAllTasks();
+  tasks = tasks.map((task) => {
+    if (task.id == id) {
+      return { id, title, completed };
+    } else {
+      return task;
+    }
+  });
+
+  saveTasks(tasks);
+}
+
+export { getAllTasks, saveTasks, getTasks, deleteTask, addTask, updateTask };
