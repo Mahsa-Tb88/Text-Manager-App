@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./Pagination.scss";
 import { HiChevronRight } from "react-icons/hi2";
 import { HiChevronLeft } from "react-icons/hi2";
@@ -9,7 +10,10 @@ export default function Pagination({
   handlePgae,
   tasks,
   page,
+  numOfPage,
+  setNumOfPage,
 }) {
+  console.log(currentPage, totalPage, numOfPage);
   const prevClasses = ["page-item", currentPage == 1 ? "disabled" : ""].join(
     " "
   );
@@ -35,15 +39,19 @@ export default function Pagination({
   if (tasks.length == 0 && page == 1) {
     return;
   }
+  function handleSelectPage(e) {
+    const numPage = parseInt(e.target.value);
+    if (typeof numPage == "number" && 0 < numPage <= totalPage) {
+      handlePgae(numPage);
+      setNumOfPage(numPage);
+    }
+  }
   return (
     <ul className="pagination paginate">
       {totalPage > 4 ? (
-        <li className={nextClasses}>
+        <li className={prevClasses}>
           <span className="page-link" aria-label="Next">
-            <span
-              aria-hidden="true"
-              onClick={() => handlePgae(currentPage + 1)}
-            >
+            <span aria-hidden="true" onClick={() => handlePgae(1)}>
               First
             </span>
           </span>
@@ -52,7 +60,11 @@ export default function Pagination({
         ""
       )}
       <li className={prevClasses}>
-        <span className="page-link" aria-label="Previous">
+        <span
+          className="page-link"
+          aria-label="Previous"
+          onClick={() => handlePgae(currentPage - 1)}
+        >
           <span aria-hidden="true">&laquo;</span>
         </span>
       </li>
@@ -61,21 +73,31 @@ export default function Pagination({
       ) : (
         <div>
           <span>
-            <input className=" numberOfPage" />
+            <input
+              className=" numberOfPage"
+              value={numOfPage}
+              onChange={handleSelectPage}
+            />
           </span>
           <span className="totalNumberOfPage">of {totalPage}</span>
         </div>
       )}
       <li className={nextClasses}>
-        <span className="page-link" aria-label="Next">
-          <span aria-hidden="true" onClick={() => handlePgae(currentPage + 1)}>
-            &raquo;
-          </span>
+        <span
+          className="page-link"
+          aria-label="Next"
+          onClick={() => handlePgae(currentPage + 1)}
+        >
+          <span aria-hidden="true">&raquo;</span>
         </span>
       </li>
       {totalPage > 4 ? (
         <li className={nextClasses}>
-          <span className="page-link" aria-label="Next">
+          <span
+            className="page-link"
+            aria-label="Next"
+            onClick={() => handlePgae(totalPage)}
+          >
             <span aria-hidden="true">Last</span>
           </span>
         </li>

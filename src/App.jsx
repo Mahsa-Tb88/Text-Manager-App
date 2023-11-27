@@ -25,6 +25,7 @@ export default function App() {
   const [completed, setCompleted] = useState(false);
   const [idEdit, setIdEdit] = useState(null);
   const [editTitle, setEditTitle] = useState("");
+  const [numOfPage, setNumOfPage] = useState(1);
 
   const totalPage = Math.ceil(
     getTasks(page, perPage, search, status).totalTasks.filterd / perPage
@@ -34,6 +35,9 @@ export default function App() {
     const newTasks = getTasks(i, perPage, search, status);
     setTasks(newTasks.tasks);
     setTotalTasks(newTasks.totalTasks);
+    if (totalPage > 4) {
+      setNumOfPage(i);
+    }
   }
 
   function handleAddTask(e) {
@@ -123,7 +127,6 @@ export default function App() {
     setTotalTasks(allTasks.totalTasks);
   }
 
-  console.log(totalTasks.all, perPage);
   return (
     <div className="container">
       <h1 className="text-center my-4">Text Manager App</h1>
@@ -158,6 +161,8 @@ export default function App() {
           handlePgae={handlePage}
           tasks={tasks}
           page={page}
+          numOfPage={numOfPage}
+          setNumOfPage={setNumOfPage}
         />
       ) : (
         ""
