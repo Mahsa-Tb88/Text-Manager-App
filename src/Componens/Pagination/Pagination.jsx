@@ -10,9 +10,7 @@ export default function Pagination({
   handlePgae,
   tasks,
   page,
-  numOfPage,
 }) {
-  console.log(numOfPage, page);
   const prevClasses = ["page-item", currentPage == 1 ? "disabled" : ""].join(
     " "
   );
