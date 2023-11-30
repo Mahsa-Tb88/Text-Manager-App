@@ -35,9 +35,10 @@ export default function App() {
     const newTasks = getTasks(i, perPage, search, status);
     setTasks(newTasks.tasks);
     setTotalTasks(newTasks.totalTasks);
-    if (totalPage > 4) {
-      setNumOfPage(i);
-    }
+    // if (totalPage > 4) {
+    //   // setNumOfPage(i);
+    //   setPage(i);
+    // }
   }
 
   function handleAddTask(e) {
@@ -163,6 +164,7 @@ export default function App() {
           page={page}
           numOfPage={numOfPage}
           setNumOfPage={setNumOfPage}
+          setPage={setPage}
         />
       ) : (
         ""

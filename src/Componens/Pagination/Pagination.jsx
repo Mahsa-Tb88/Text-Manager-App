@@ -11,9 +11,8 @@ export default function Pagination({
   tasks,
   page,
   numOfPage,
-  setNumOfPage,
 }) {
-  console.log(currentPage, totalPage, numOfPage);
+  console.log(numOfPage, page);
   const prevClasses = ["page-item", currentPage == 1 ? "disabled" : ""].join(
     " "
   );
@@ -40,10 +39,13 @@ export default function Pagination({
     return;
   }
   function handleSelectPage(e) {
-    const numPage = parseInt(e.target.value);
-    if (typeof numPage == "number" && 0 < numPage <= totalPage) {
+    let numPage = e.target.value;
+    console.log(numPage > 0);
+    if (0 < numPage && numPage <= totalPage) {
+      numPage = parseInt(numPage);
       handlePgae(numPage);
-      setNumOfPage(numPage);
+    } else {
+      return;
     }
   }
   return (
@@ -75,7 +77,7 @@ export default function Pagination({
           <span>
             <input
               className=" numberOfPage"
-              value={numOfPage}
+              value={page}
               onChange={handleSelectPage}
             />
           </span>
