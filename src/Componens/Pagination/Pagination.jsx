@@ -11,6 +11,7 @@ export default function Pagination({
   tasks,
   page,
 }) {
+  console.log(totalPage);
   const prevClasses = ["page-item", currentPage == 1 ? "disabled" : ""].join(
     " "
   );
@@ -45,6 +46,9 @@ export default function Pagination({
     } else {
       return;
     }
+  }
+  if (totalPage == 1) {
+    return;
   }
   return (
     <ul className="pagination paginate">

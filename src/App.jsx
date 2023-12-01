@@ -66,10 +66,8 @@ export default function App() {
   function handleChangeSearch(e) {
     setSearch(e.target.value);
     const newSearch = e.target.value;
-    console.log(newSearch);
     setPage(1);
     const newTasks = getTasks(1, perPage, newSearch, status);
-    console.log(newTasks.tasks);
     setTasks(newTasks.tasks);
     setTotalTasks(newTasks.totalTasks);
   }
@@ -149,19 +147,14 @@ export default function App() {
         onDelete={handleDeleteTask}
         page
       />
-
-      {totalTasks.all > perPage ? (
-        <Pagination
-          currentPage={page}
-          totalPage={totalPage}
-          handlePgae={handlePage}
-          tasks={tasks}
-          page={page}
-          setPage={setPage}
-        />
-      ) : (
-        ""
-      )}
+      <Pagination
+        currentPage={page}
+        totalPage={totalPage}
+        handlePgae={handlePage}
+        tasks={tasks}
+        page={page}
+        setPage={setPage}
+      />
     </div>
   );
 }
